@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Performance Analysis - Golf Club{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2 class="text-center mb-4">Performance Analysis</h2>
+
+        <!-- Date Range Filter -->
+        <form method="GET" action="{{ url_for('performance') }}" class="filters mb-4">
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </form>
+
+        {% if avg_scores %}
+            {% for entry in avg_scores %}
+                <div class="score-card mb-4">
+                    <h3 class="course-name">{{ entry.course }}</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Hole</th>
+                                    <th>Par</th>
+                                    <th>Average Score</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hole in entry.holes %}
+                                <tr>
+                                    <td>{{ hole['hole_id'] }}</td>
+                                    <td>{{ hole['par'] }}</td>
+                                    <td>{{ hole['avg_score'] }}</td>
+                                    <td class="performance-cell {% if hole['avg_score'] > hole['par'] %}over-par{% elif hole['avg_score'] < hole['par'] %}under-par{% endif %}">
+                                        {{ (hole['avg_score'] - hole['par'])|round(1) }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">No performance data available for the selected date range.</p>
+        {% endif %}
+
+        {% if weak_holes %}
+            <div class="card mt-4">
+                <h3 class="mb-4">Areas for Improvement</h3>
+                {% for course, holes in weak_holes.items() %}
+                    <div class="improvement-section mb-4">
+                        <h4>{{ course }}</h4>
+                        <ul class="weak-holes-list">
+                            {% for hole in holes %}
+                            <li>
+                                Hole {{ hole.hole_id }} (Par {{ hole.par }}) - Average: {{ hole.avg_score }}
+                                <span class="over-par">(+{{ (hole.avg_score - hole.par)|round(1) }})</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if drills %}
+            <div class="card mt-4">
+                <h3 class="mb-4">Recommended Drills</h3>
+                {% for course, recommendations in drills.items() %}
+                    <div class="drill-section mb-4">
+                        <h4>{{ course }}</h4>
+                        <ul class="drill-list">
+                            {% for drill in recommendations %}
+                            <li>{{ drill }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .course-name {
+        color: var(--primary-color);
+        padding: 0.5rem 0;
+        border-bottom: 2px solid var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .performance-cell {
+        font-weight: 500;
+    }
+
+    .over-par {
+        color: var(--error-color);
+    }
+
+    .under-par {
+        color: var(--success-color);
+    }
+
+    .weak-holes-list, .drill-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .weak-holes-list li, .drill-list li {
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        background: #f8fafc;
+        border-radius: 4px;
+    }
+
+    .improvement-section h4, .drill-section h4 {
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    .score-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}

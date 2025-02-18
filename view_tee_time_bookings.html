@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Tee Time Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .home-button {
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .home-button:hover {
+            background-color: #f0f0f0;
+        }
+        .edit-button {
+            padding: 5px 10px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tee Time Bookings</h1>
+
+    <!-- Home Button -->
+    <a href="{{ url_for('home') }}" class="home-button">Home</a>
+
+    {% if bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    {% if session.role == 'admin' %}
+                        <th>Username</th>
+                    {% endif %}
+                    <th>Course Name</th>
+                    <th>Booking Date</th>
+                    <th>Tee Time</th>
+                    <th>Number of Players</th>
+                    <th>Actions</th> <!-- Added Actions column -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking['BookingID'] }}</td>
+                        {% if session.role == 'admin' %}
+                            <td>{{ booking['Username'] }}</td>
+                        {% endif %}
+                        <td>{{ booking['CourseName'] }}</td>
+                        <td>{{ booking['BookingDate'] }}</td>
+                        <td>{{ booking['TeeTime'] }}</td>
+                        <td>{{ booking['NumberOfPlayers'] }}</td>
+                        <td>
+                            <!-- Edit Button -->
+                            <form action="{{ url_for('edit_booking', booking_id=booking['BookingID']) }}" method="get" style="display:inline;">
+                                <button type="submit" class="edit-button">Edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings found.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Golf Club{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2 class="mb-4">Player Profile</h2>
+        <div class="profile-info">
+            <p><strong>Username:</strong> {{ user[1] }}</p>
+            <p><strong>Player ID:</strong> {{ user[0] }}</p>
+        </div>
+
+        {% if session.user_id %}
+        <div class="card mt-4">
+            <h3 class="mb-4">Select Course</h3>
+            <form method="POST">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    <label for="course">Select Course:</label>
+                    <select name="course_id" id="course" required>
+                        <option value="">-- Select Course --</option>
+                        {% for course in courses %}
+                            <option value="{{ course[0] }}">{{ course[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Enter Scores</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <div class="actions mt-4">
+            <a href="{{ url_for('view_scores') }}" class="btn btn-secondary">View Scores</a>
+            <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Edit Profile</a>
+            <form action="{{ url_for('delete_user') }}" method="POST" class="mt-4" 
+                  onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                {{ form.csrf_token }}
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-info {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 1.5rem;
+    }
+    .profile-info p {
+        margin-bottom: 0.5rem;
+    }
+    .actions {
+        display: grid;
+        gap: 1rem;
+    }
+    .btn-danger {
+        background-color: var(--error-color);
+        color: white;
+    }
+    .btn-danger:hover {
+        background-color: #c53030;
+    }
+</style>
+{% endblock %}

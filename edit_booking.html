@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin: 8px 0 4px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: white;
+            color: black;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Booking</h1>
+        <form method="POST" action="{{ url_for('update_booking', booking_id=booking.BookingID) }}">
+            {{ form.csrf_token }}
+            <label for="booking_date">Booking Date</label>
+            <input type="date" id="booking_date" name="booking_date" value="{{ booking['BookingDate'] }}" required>
+
+            <label for="tee_time">Tee Time</label>
+            <input type="time" id="tee_time" name="tee_time" value="{{ booking['TeeTime'] }}" required>
+
+            <label for="number_of_players">Number of Players</label>
+            <input type="number" id="number_of_players" name="number_of_players" value="{{ booking['NumberOfPlayers'] }}" required>
+
+            <button type="submit">Update Booking</button>
+        </form>
+        <a href="{{ url_for('view_tee_time_bookings') }}">Cancel</a>
+    </div>
+</body>
+</html>

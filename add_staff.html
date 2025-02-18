@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Staff</title>
+</head>
+<body>
+    <header>
+        <h1><a href="{{ url_for('home') }}"> ⛳ Home</a></h1>
+    </header>
+
+    <h1>Add New Staff</h1>
+
+    <form method="POST" action="{{ url_for('add_staff') }}">
+        {{ form.csrf_token }}
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="role">Role</label>
+        <input type="text" id="role" name="role" required><br><br>
+
+        <label for="schedule">Schedule</label>
+        <input type="text" id="schedule" name="schedule"><br><br>
+
+        <button type="submit">Add Staff</button>
+    </form>
+
+    <a href="{{ url_for('manage_staff') }}">Back to Manage Staff</a>
+</body>
+</html> 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predictions</title>
+</head>
+<body>
+    <h1>Predicted Scores for {{ course_name }}</h1>
+    <table border="1">
+        <tr>
+            <th>Hole ID</th>
+            <th>Par</th>
+            <th>Predicted Score</th>
+        </tr>
+        {% for _, row in predictions.iterrows() %}
+        <tr>
+            <td>{{ row['HoleID'] }}</td>
+            <td>{{ row['Par'] }}</td>
+            <td>{{ "%.1f" | format(row['Predicted_Score']) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>

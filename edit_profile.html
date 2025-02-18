@@ -1,0 +1,35 @@
+<!-- edit_profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{{ url_for('home') }}"> 🏌️Home</a></h1> <!-- Home button/logo -->
+    </header>
+
+    <h1>Edit Profile</h1>
+    <form method="POST" action="{{ url_for('edit_profile') }}">
+        {{ form.csrf_token }}
+        <label for="username">Username:</label>
+        <input type="text" name="username" value="{{ user[1] }}"><br> <!-- Assuming user[1] is the username -->
+        <label for="password">Password:</label>
+        <input type="password" name="password"><br> <!-- No value for security -->
+        <input type="submit" value="Update">
+    </form>
+    <a href="{{ url_for('profile') }}">Cancel</a>
+</body>
+</html>

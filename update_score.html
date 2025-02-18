@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Score</title>
+</head>
+<body>
+    <h1>Enter Scores for Course ID: {{ course_id }} ({{ holes }} Holes)</h1>
+    <form method="POST">
+        <label for="play_date">Select Play Date:</label>
+        <input type="date" id="play_date" name="play_date" required><br><br>
+        
+        {% for hole in holes_data %}
+            <label for="score_{{ hole[0] }}">Hole {{ hole[0] }} (Par {{ hole[1] }}):</label>
+            <input type="number" name="score_{{ hole[0] }}" min="1" required><br>
+        {% endfor %}
+        
+        <input type="submit" value="Submit Scores">
+    </form>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Book Tee Time - Golf Club{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2 class="text-center mb-4">Book a Tee Time</h2>
+        <form method="POST" action="{{ url_for('book_tee_time') }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="course_name">Select Course</label>
+                <select id="course_name" name="course_name" required>
+                    <option value="">--Select a Course--</option>
+                    {% for course in courses %}
+                        <option value="{{ course['Name'] }}">{{ course['Name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="booking_date">Booking Date</label>
+                <input type="date" id="booking_date" name="booking_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tee_time">Tee Time</label>
+                <input type="time" id="tee_time" name="tee_time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="number_of_players">Number of Players</label>
+                <input type="number" id="number_of_players" name="number_of_players" min="1" max="4" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Book Now</button>
+        </form>
+    </div>
+{% endblock %}

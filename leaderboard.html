@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - Golf Club{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <h2 class="text-center mb-4">Leaderboard</h2>
+        
+        <form method="GET" action="{{ url_for('leaderboard') }}" class="filters mb-4">
+            <div class="form-group">
+                <label for="course">Select Course</label>
+                <select name="course_id" id="course" onchange="this.form.submit()">
+                    <option value="">-- All Courses --</option>
+                    {% for course in courses %}
+                        <option value="{{ course[0] }}" {% if course[0]|string == selected_course_id %}selected{% endif %}>
+                            {{ course[1] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+        
+        {% if leaderboard %}
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>Player Name</th>
+                            <th>Total Score</th>
+                            <th>Holes Played</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in leaderboard %}
+                        <tr>
+                            <td>{{ entry[0] }}</td>
+                            <td>{{ entry[1] }}</td>
+                            <td>{{ entry[2] }}</td>
+                            <td>{{ entry[3] }}</td>
+                            <td>{{ entry[4] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center">No scores available for the selected course.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .filters {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+{% endblock %}

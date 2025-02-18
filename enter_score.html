@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Scores</title>
+</head>
+<body>
+    <h1>Enter Scores for Course ID: {{ course_id }} ({{ holes }} Holes)</h1>
+    <form method="POST" action="{{ url_for('enter_score') }}">
+        {{ form.csrf_token }}
+        <!-- Date Picker for the play date -->
+        <label for="play_date">Select Play Date:</label>
+        <input type="date" id="play_date" name="play_date" required><br><br>
+
+        <!-- Input fields for each hole score -->
+        {% for hole in holes_data %}
+            <label for="score_{{ hole[0] }}">Hole {{ hole[0] }} (Par {{ hole[1] }}):</label>
+            <input type="number" id="score_{{ hole[0] }}" name="score_{{ hole[0] }}" required><br>
+        {% endfor %}
+        
+        <input type="submit" value="Submit Scores">
+    </form>
+</body>
+</html>

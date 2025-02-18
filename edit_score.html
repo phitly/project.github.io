@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Score</title>
+</head>
+<body>
+    <h1>Edit Score for Hole {{ score_entry[1] }} on Course {{ score_entry[2] }}</h1>
+    <form method="POST" action="{{ url_for('save_score') }}">
+        {{ form.csrf_token }}
+        <label for="score">Score:</label>
+        <input type="number" name="new_score" value="{{ score_entry[0] }}" required>
+        <input type="hidden" name="score_id" value="{{ score_id }}">
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('view_scores') }}">Cancel</a>
+</body>
+</html>

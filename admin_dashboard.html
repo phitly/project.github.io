@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Admin!</h1>
+
+    <!-- Admin Links -->
+    <h2>Manage Courses</h2>
+    <p><a href="{{ url_for('add_course') }}">Add a New Course</a></p>
+    <p><a href="{{ url_for('edit_course') }}">Edit a Course</a></p>
+    <p><a href="{{ url_for('delete_course') }}">Delete a Course</a></p>
+
+    <h2>Manage Staff</h2>
+    <p><a href="{{ url_for('add_staff') }}">Add New Staff</a></p>
+    <p><a href="{{ url_for('edit_staff') }}">Edit Staff Details</a></p>
+    <p><a href="{{ url_for('delete_staff') }}">Delete Staff</a></p>
+
+    <h2>Manage Tee Times</h2>
+    <p><a href="{{ url_for('add_tee_time') }}">Add New Tee Time</a></p>
+    <p><a href="{{ url_for('edit_tee_time') }}">Edit Tee Times</a></p>
+    <p><a href="{{ url_for('delete_tee_time') }}">Delete Tee Time</a></p>
+
+    <h2>Maintenance Scheduling</h2>
+    <p><a href="{{ url_for('add_maintenance') }}">Schedule Maintenance</a></p>
+    <p><a href="{{ url_for('edit_maintenance') }}">Edit Maintenance Schedule</a></p>
+    <p><a href="{{ url_for('delete_maintenance') }}">Delete Maintenance Schedule</a></p>
+
+    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+</body>
+</html>

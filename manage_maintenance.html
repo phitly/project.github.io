@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Maintenance</title>
+</head>
+<body>
+    <header>
+        <h1><a href="{{ url_for('home') }}"> ⛳Home</a></h1>
+    </header>
+    <h1>Manage Maintenance</h1>
+
+    <form method="POST" action="{{ url_for('manage_maintenance') }}">
+        {{ form.csrf_token }}
+        <label for="description">Maintenance Description:</label>
+        <textarea name="description" id="description" required></textarea>
+
+        <label for="maintenance_date">Maintenance Date:</label>
+        <input type="date" name="maintenance_date" id="maintenance_date" required>
+
+        <label for="course_id">Select Course:</label>
+        <select name="course_id" id="course_id" required>
+            <option value="">--Select a Course--</option>
+            {% for course in courses %}
+                <option value="{{ course[0] }}">{{ course[1] }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Add Maintenance Task</button>
+    </form>        
+
+    <h2>Scheduled Maintenance Tasks</h2>
+    <table border="1">
+        <tr>
+            <th>Maintenance ID</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Course</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in maintenance_tasks %}
+        <tr>
+            <td>{{ task[0] }}</td>
+            <td>{{ task[1] }}</td>
+            <td>{{ task[2] }}</td>
+            <td>{{ task[3] }}</td> <!-- Display course name here -->
+            <td>
+                <a href="{{ url_for('edit_maintenance', task_id=task[0]) }}">Edit</a> |
+                <a href="{{ url_for('delete_maintenance', task_id=task[0]) }}" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>
